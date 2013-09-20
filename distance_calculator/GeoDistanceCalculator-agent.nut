@@ -1,6 +1,7 @@
 const HOME_LATITUDE = <your_home_latitude>;
 const HOME_LONGITUDE = <your_home_longitude>;
 const EARTH_MEAN_RADIUS_KM = 6371.009;
+const MAX_DISTANCE = 35; // km
 
 // from Christian Brosch's EasyGPSTracker Android app we will receive a POST
 // with a lot of data, in plain form and also in XML, like:
@@ -108,12 +109,14 @@ function requestHandler(request, response) {
   // send response with distance and code 0 (success)
   sendResponse(response, 0, "distance: "+distance);
   
-  // send distance and user to the imp
-  local data = {
+  // send distance and user to the imp, if not too far away
+  if(distance <= MAX_DISTANCE) {
+    local data = {
       distance = distance
       user = user
-  };
-  device.send("dist", data);
+    };
+    device.send("dist", data);
+  }
 }
 
 // your agent code should only ever have ONE http.onrequest call.
