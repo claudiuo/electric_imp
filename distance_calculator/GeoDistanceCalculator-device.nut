@@ -34,7 +34,15 @@ agent.on("dist", function(data) {
         hardware.pin2.write(blueValue/100);
         hardware.pin5.write(redValue/100);
     }
+    // wakeup in 10 sec to turn the LEDs off
+    imp.wakeup(10, turnLedsOff);
 });
+
+function turnLedsOff() {
+    hardware.pin1.write(0);
+    hardware.pin2.write(0);
+    hardware.pin5.write(0);
+}
 
 // this section to calculate PWM values based on distance
 // all distances in km
