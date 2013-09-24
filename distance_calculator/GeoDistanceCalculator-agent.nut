@@ -94,13 +94,9 @@ function requestHandler(request, response) {
     return;
   }
 
+  // the user may be missing: in the future I could change the
+  // imp code to act differently depending on the user
   server.log("user: "+user);
-  // do this only if user is present
-  if(user == null || user.len() == 0) {
-    // send response with code 1 (error)
-    sendResponse(response, 1, "invalid user");
-    return;
-  }
 
   calculateDistance(HOME_LATITUDE, latitude, HOME_LONGITUDE, longitude);
 
