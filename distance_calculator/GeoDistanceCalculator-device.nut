@@ -5,10 +5,14 @@ imp.configure("GeoDistance", [], []);
 
 imp.setpowersave(true);
 
+greenPin <- hardware.pin2;
+bluePin <- hardware.pin7;
+redPin <- hardware.pin5;
+
 // Set up 200Hz PWM, duty cycle zero (ie will stay low)
-hardware.pin1.configure(PWM_OUT, 1.0/200, 0);
-hardware.pin2.configure(PWM_OUT, 1.0/200, 0);
-hardware.pin5.configure(PWM_OUT, 1.0/200, 0);
+greenPin.configure(PWM_OUT, 1.0/200, 0);
+bluePin.configure(PWM_OUT, 1.0/200, 0);
+redPin.configure(PWM_OUT, 1.0/200, 0);
 
 agent.on("dist", function(data) {
     // get the distance and the user
@@ -30,18 +34,18 @@ agent.on("dist", function(data) {
         server.log("blue: "+blueValue);
         server.log("red: "+redValue);
         
-        hardware.pin1.write(greenValue/100);
-        hardware.pin2.write(blueValue/100);
-        hardware.pin5.write(redValue/100);
+        greenPin.write(greenValue/100);
+        bluePin.write(blueValue/100);
+        redPin.write(redValue/100);
     }
     // wakeup in 10 sec to turn the LEDs off
     imp.wakeup(10, turnLedsOff);
 });
 
 function turnLedsOff() {
-    hardware.pin1.write(0);
-    hardware.pin2.write(0);
-    hardware.pin5.write(0);
+    greenPin.write(0);
+    bluePin.write(0);
+    redPin.write(0);
 }
 
 // this section to calculate PWM values based on distance
